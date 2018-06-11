@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import { Message } from 'semantic-ui-react';
 
 class CutResult extends Component {
     render(){
         return (
-            <div className="cutResult">{this.props.text}</div>
+            <Message>
+                <Message.Header>Your Results</Message.Header>
+                <p>{this.props.text}</p>
+            </Message>
         )
     }
 }
