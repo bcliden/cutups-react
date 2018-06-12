@@ -2,31 +2,35 @@ import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { Header, Container, Message, Icon } from 'semantic-ui-react';
 import CutForm from './components/CutForm';
+import { pipe, splitText, reverseCut, chunkCut, shuffleCut} from './helpers/cutups.js';
 
 class App extends Component {
   state = {
     form: {
       text: '',
       shuffle: true,
-      reverse: false,
-      chunkSize: 3
+      reverse: true,
+      chunkSize: '3'
     },
-    results: null,
+    results: '',
   }
   handleChange = (e, { name, value, checked}) => {
     const form = {...this.state.form};
     checked 
       ? form[name] = checked
       : form[name] = value;
-
     this.setState({
       form,
     });
-
   }
   handleSubmit = (e) => {
-    console.dir(e);
-    this.setState({ results: 'dingo ate your baby' });
+    // define order of operations, left to right
+  // must reverse before array gets chunked
+    let operations = [splitText, reverseCut, chunkCut, shuffleCut];
+    let data = {...this.state.form};
+
+    let cutResult = pipe(data, operations).result.join(' ');
+    this.setState({ results: cutResult });
   }
   render() {
     let { form } = this.state;
@@ -52,19 +56,6 @@ class App extends Component {
       </Container>
     );
   }
-}
-
-function shuffle(data) {
-  if( this.state.form.shuffle ){
-      let arrayCopy = data.array.slice();
-      // shuffle array using fisher-yates algorithm
-      for(let idx1 = arrayCopy.length-1; idx1 > 0; idx1--){
-          let idx2 = Math.floor(Math.random()*(idx1+1));
-          [arrayCopy[idx1], arrayCopy[idx2]] = [arrayCopy[idx2], arrayCopy[idx1]];
-      }
-      data.array = arrayCopy;
-  }
-  return data;
 }
 
 export default App;

@@ -23,6 +23,7 @@ class CutForm extends Component {
                 <Form.TextArea 
                     placeholder="write your text here" 
                     name="text"
+                    value={this.props.text}
                     onChange={this.props.handleChange}
                     cols="30" 
                     rows="10" 
@@ -31,22 +32,22 @@ class CutForm extends Component {
                     <Form.Group inline>
                         <Form.Checkbox 
                             toggle
-                            fluid
                             checked={this.props.shuffle}
                             onChange={this.props.handleChange}
                             name="shuffle"
                             label="Shuffle"/>
                         <Form.Checkbox 
                             toggle
-                            fluid
                             checked={this.props.reverse}
                             onChange={this.props.handleChange} 
                             name="reverse"
                             label="Reverse"/> 
                     </Form.Group>
                     <Form.Dropdown
+                        onChange={this.props.handleChange}
                         label="Chunk Size"
-                        defaultValue="2"
+                        name="chunkSize"
+                        value={this.props.chunkSize}
                         selection
                         compact
                         id="chunkDropdown"
